@@ -1,0 +1,22 @@
+{
+  "name": "google-mapsa",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/123rishu/Google-Maps-Automation.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/123rishu/Google-Maps-Automation/issues"
+  },
+  "homepage": "https://github.com/123rishu/Google-Maps-Automation#readme",
+  "dependencies": {
+    "puppeteer": "^8.0.0"
+  }
+}
