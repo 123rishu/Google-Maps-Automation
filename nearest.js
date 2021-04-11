@@ -60,29 +60,43 @@ if (fileExitst) {
     await tab.waitForSelector('div[aria-label="Results for Hospital"] .sJKr7qpXOXd__result-container.sJKr7qpXOXd__two-actions.sJKr7qpXOXd__wide-margin');
     let allHospitalTags = await tab.$$('.place-result-container-place-link');
     let firstHospTag = allHospitalTags[0];
-    let link = await tab.evaluate( function(elem){
-        return elem.getAttribute("href");
-    }   , firstHospTag );
-    //console.log(link);
-    tab.goto(link);
+    let links = [];
+    for(let i=0;i<8;i++){
+        let link = await tab.evaluate( function(elem){
+            return elem.getAttribute("href");
+        }   , allHospitalTags[i] );
+        links.push(link);
+    }
+
+    for(let i=0;i<8;i++){
+        await bringDetails(links[i] , browser);
+    }
+
+})();
+
+
+async function bringDetails(link, browser ){
+    
+    let tab = await browser.newPage();
+    await tab.goto(link);
     await tab.waitForSelector('.section-hero-header-title-title.gm2-headline-5 span');
     let hospNameTag = await tab.$('.section-hero-header-title-title.gm2-headline-5 span');
     let hospName = await tab.evaluate( function(elem){
         return elem.textContent;
     }   , hospNameTag );
-    console.log(hospName);
+    //console.log(hospName);
     let hospinfoTags = await tab.$$('.ugiz4pqJLAG__primary-text.gm2-body-2');
     let hospAddTag = hospinfoTags[1];
     let hospAddress = await tab.evaluate( function(elem){
         return elem.textContent;
     }   , hospAddTag);
-    console.log(hospAddress);
+    //console.log(hospAddress);
     let hospContactTag = hospinfoTags[3];
     let hospContactDetail = await tab.evaluate( function(elem){
         return elem.textContent;
     }   , hospContactTag );
-    console.log(hospContactDetail);
-    let hospitalFilePath = `./${hospName}.json`;
+    //console.log(hospContactDetail);
+    let hospitalFilePath = `./allHospitalFolders/${hospName}.json`;
     let hospFile = [];
     let obj = {
         HospitalName : hospName , 
@@ -93,22 +107,30 @@ if (fileExitst) {
     let stringifiedData = JSON.stringify(hospFile); // [object] => [ {}]
     fs.writeFileSync(hospitalFilePath , stringifiedData  );
 
+    await tab.close();
+
+}
 
 
-    
-    
 
 
 
 
-    
 
 
-    
-    
-    
 
-})();
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //await tab.waitForNavigation();
