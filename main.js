@@ -2,7 +2,8 @@ const puppeteer = require("puppeteer");
 console.log("Started developing ...");
 const id = "xyzpixel308@gmail.com";
 const pw = "Pixel123@";
-const placeName = "Eod adventure Park";
+const locationName = "Punjabi Bagh";
+const destName = "Eod adventure Park";
 const path = require('path');
 const fs = require('fs');
 const pathFile = __dirname;
@@ -16,7 +17,7 @@ if (fileExitst) {
     console.log("Yes it exists");
 }
 
-//const fileExitst = fs.existsSync(`${pathFile}/travis_1.png`)
+
 
 
 (async function(){
@@ -43,18 +44,38 @@ if (fileExitst) {
     await tab.goto("https://www.google.com/maps/");
     await tab.waitForSelector('input[autofocus="autofocus"]', {visible:true});
     await tab.waitForTimeout(1000);
-    await tab.type('input[autofocus="autofocus"]', placeName);
+    await tab.type('input[autofocus="autofocus"]', destName);
     await tab.waitForTimeout(1000);
     await tab.waitForSelector('#searchbox-searchbutton', {visible:true});
+    //await tab.waitForNavigation();
     await tab.click('#searchbox-searchbutton');
-    await tab.waitForSelector('img[alt="Add a photo"]', {visible:true});
+    //await tab.waitForSelector('img[alt="Add a photo"]', {visible:true});
     //await tab.click('img[alt="Add a photo"]');
     //let newTab = allPages[1]; 
-    await tab.waitForTimeout(2000);
+    await tab.waitForSelector('img[alt="Directions"]', {visible : true});
+    let directionTag = await tab.$('img[alt="Directions"]');
+    await directionTag.click();
+    await tab.waitForSelector('input[autocomplete="off"][aria-label="Choose starting point, or click on the map..."]', {visible:true});
+    await tab.type('input[aria-label="Choose starting point, or click on the map..."]', locationName);
+    // await tab.click('input[aria-label="Choose starting point, or click on the map..."]');
+    await tab.keyboard.press("Enter");
+    //await tab.waitForTimeout(5000);
+    await tab.waitForNavigation();
+    await tab.waitForSelector('.section-directions-trip-distance.section-directions-trip-secondary-text div', {visible:true});
+    let distTags = await tab.$$('.section-directions-trip-distance.section-directions-trip-secondary-text div');
+    let distTag = distTags[0];
+    let text = await tab.evaluate( function(elem){
+        return elem.textContent();
+    }   , distTag );
+    console.log(text);
+    
+    
     
 
 
 
+
+    
 
 
     
