@@ -29,19 +29,6 @@ if (fileExitst) {
     });
     let allPages = await browser.pages();
     let tab = allPages[0];
-    await tab.goto("https://stackoverflow.com/users/login");
-    await tab.waitForSelector('.universal-auth-page.unified-theme.floating-content' , {visible:true});
-    await tab.waitForTimeout(5000);
-    await tab.click('.grid--cell.s-btn.s-btn__icon.s-btn__google.bar-md.ba.bc-black-100');
-    await tab.waitForSelector('.nyoS7c.UzCXuf.EIlDfe');
-    await tab.type('input[type="email"]', id);
-    await tab.click("#identifierNext");
-    await tab.waitForTimeout(1000);
-    await tab.waitForSelector('input[type="password"]', { visible: true });
-    await tab.type('input[type="password"]', pw);
-    await tab.waitForSelector("#passwordNext", { visible: true });
-    await tab.click("#passwordNext");
-    await tab.waitForTimeout(2000);
     await tab.goto("https://www.google.com/maps/");
     await tab.waitForSelector('input[autofocus="autofocus"]', {visible:true});
     await tab.waitForTimeout(1000);
@@ -61,16 +48,49 @@ if (fileExitst) {
     let allHospitalTags = await tab.$$('.place-result-container-place-link');
     let firstHospTag = allHospitalTags[0];
     let links = [];
-    for(let i=0;i<8;i++){
+    for(let i=0;i<allHospitalTags.length;i++){
         let link = await tab.evaluate( function(elem){
             return elem.getAttribute("href");
         }   , allHospitalTags[i] );
         links.push(link);
     }
 
-    for(let i=0;i<8;i++){
+    for(let i=0;i<links.length;i++){
         await bringDetails(links[i] , browser);
     }
+
+    // let link = await tab.evaluate( function(elem){
+    //     return elem.getAttribute("href");
+    // }   , firstHospTag );
+    // //console.log(link);
+    // await tab.goto(link);
+    // await tab.waitForSelector('.section-hero-header-title-title.gm2-headline-5 span');
+    // let hospNameTag = await tab.$('.section-hero-header-title-title.gm2-headline-5 span');
+    // let hospName = await tab.evaluate( function(elem){
+    //     return elem.textContent;
+    // }   , hospNameTag );
+    // console.log(hospName);
+    // let hospinfoTags = await tab.$$('.ugiz4pqJLAG__primary-text.gm2-body-2');
+    // let hospAddTag = hospinfoTags[1];
+    // let hospAddress = await tab.evaluate( function(elem){
+    //     return elem.textContent;
+    // }   , hospAddTag);
+    // console.log(hospAddress);
+    // let hospContactTag = hospinfoTags[3];
+    // let hospContactDetail = await tab.evaluate( function(elem){
+    //     return elem.textContent;
+    // }   , hospContactTag );
+    // console.log(hospContactDetail);
+    // let hospitalFilePath = `./${hospName}.json`;
+    // let hospFile = [];
+    // let obj = {
+    //     HospitalName : hospName , 
+    //     HospitalAddress : hospAddress , 
+    //     HospitalContactDetails : hospContactDetail
+    // }
+    // hospFile.push(obj);
+    // let stringifiedData = JSON.stringify(hospFile); // [object] => [ {}]
+    // fs.writeFileSync(hospitalFilePath , stringifiedData  );
 
 })();
 
