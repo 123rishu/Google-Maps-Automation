@@ -130,34 +130,3 @@ async function bringDetails(link, browser ){
     await tab.close();
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//await tab.waitForNavigation();
-    // await tab.waitForSelector('.section-directions-trip-distance.section-directions-trip-secondary-text div', {visible:true});
-    // let distTags = await tab.$$('.section-directions-trip-distance.section-directions-trip-secondary-text div');
-    // let distTag = distTags[0];
-    // let text = await tab.evaluate( function(elem){
-    //     return elem.textContent();
-    // }   , distTag );
-    // console.log(text);
